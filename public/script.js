@@ -1,5 +1,5 @@
 const video = document.getElementById('video')
-let isVideoStream = false
+
 let FaceLandmarks = {
     jaw: null,
     rightEyeBrow: null,
@@ -10,7 +10,7 @@ let FaceLandmarks = {
     mouth: null
 }
 
-let FaceColors = {
+const FaceColors = {
     jaw: '#FF846A', // salmon-ish
     rightEyeBrow: '#B2D374', // green-ish
     leftEyeBrow: '#FCBC43', //orange-ish
@@ -64,8 +64,7 @@ async function detect () {
     })
 }
 
-var cap
-
+let cap
 let isCrazy = false
 let isZoom = false
 let isActive = null
@@ -79,10 +78,9 @@ function setup() {
 }
 
 function keyPressed() {
-    console.log(keyCode)
     if (keyCode === 68)
         isDrawMode = true
-    if (keyCode === 83)
+    else if (keyCode === 83)
         isDrawMode = false
 }
 
@@ -120,7 +118,6 @@ function mouseReleased(ev) {
     isActive = null
 }
 
-var minX, maxX, minY, maxY
 function drawFace() {
     for (feature in FaceLandmarks) {
         let xMin, xMax, yMin, yMax
@@ -156,9 +153,8 @@ function drawFace() {
                 if (!yMax || y1 > yMax[1])
                     yMax = [x1, y1]
 
-                if (isActive) {
+                if (isActive)
                     continue
-                }
 
                 curveVertex(x1, y1)
 
@@ -168,8 +164,10 @@ function drawFace() {
             }
 
             if (isActive) {
-                if (feature !== isActive) continue
+                if (feature !== isActive) 
+                    continue
                 let img = cap.get()
+
                 let swidth = Math.ceil(xMax[0] - xMin[0])
                 let sheight = Math.ceil(yMax[1] - yMin[1])
                 let imgWidth = Math.ceil((swidth / sheight) * height)
@@ -184,7 +182,10 @@ function drawFace() {
                     height
                 )
 
-                let avgR = 0, avgG = 0, avgB = 0
+                let avgR = 0, 
+                    avgG = 0, 
+                    avgB = 0
+
                 for (idx = 0; idx < pointsArr.length; idx++) {
                     let x1 = pointsArr[idx]['_x']
                     let y1 = pointsArr[idx]['_y']
@@ -193,12 +194,12 @@ function drawFace() {
                     avgG += rgb[1]
                     avgB += rgb[2]
                 }
+
                 document.body.style.background = 'none'
                 avgR = avgR / pointsArr.length
                 avgG = avgG / pointsArr.length
                 avgB = avgB / pointsArr.length
                 document.body.style.backgroundColor = `rgb(${Math.round(avgR)}, ${Math.round(avgG)}, ${Math.round(avgB)})`
-                
                 return
             }
             if (feature === 'mouth' || feature === 'rightEye' || feature === 'leftEye') {
