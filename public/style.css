@@ -1,0 +1,38 @@
+video {
+    visibility: hidden;
+    transform: rotateY(180deg);
+    -webkit-transform:rotateY(180deg); /* Safari and Chrome */
+    -moz-transform:rotateY(180deg); /* Firefox */
+    
+}
+
+body {
+    background: linear-gradient(#ffd7d7, #9198e5);
+    height: 100vh;
+    display: flex;
+    overflow: hidden;
+}
+
+button {
+    font-family: 'Courier';
+    font-size: 20px;
+    border-radius: 5px;
+    border: 1px solid black;
+    cursor: pointer;
+    outline: none;
+    background-color: #dadadaa1;
+    height: 30px;
+    z-index: 1;
+}
+
+canvas {
+    position: absolute;
+    left: calc(50vw - 360px);
+    top: calc(50vh - 280px);
+    transform: rotateY(180deg);
+    -webkit-transform:rotateY(180deg); /* Safari and Chrome */
+    -moz-transform:rotateY(180deg); /* Firefox */
+    border-radius: 15px;
+    box-shadow: 0px 0px 25px #ffd3d3;
+}
+
