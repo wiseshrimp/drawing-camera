@@ -1,5 +1,3 @@
-const video = document.getElementById('video')
-
 let FaceLandmarks = {
     jaw: null,
     rightEyeBrow: null,
@@ -20,8 +18,6 @@ const FaceColors = {
     mouth: '#A778C8' // purple
 }
 
-let capture
-
 Promise.all([
     faceapi.nets.tinyFaceDetector.loadFromUri('./models'),
     faceapi.nets.faceLandmark68Net.loadFromUri('./models'),
@@ -29,23 +25,9 @@ Promise.all([
     faceapi.nets.faceExpressionNet.loadFromUri('./models')
 ])
 
-function startVideo() {
-    navigator.getUserMedia(
-        {
-            video: {}
-        },
-        stream => video.srcObject = stream,
-        err => console.error(err)
-    )
-
-    video.addEventListener('canplay', () => {
-        setInterval(detect, 100)
-    })
-}
-
 async function detect () {
     await faceapi.detectAllFaces(
-        video,
+        cap.elt,
         new faceapi.TinyFaceDetectorOptions()
     )
     .withFaceLandmarks()
@@ -72,9 +54,9 @@ let isDrawMode = false
 
 function setup() {
     createCanvas(720, 560)
-    startVideo()
     cap = createCapture(VIDEO)
     cap.hide()
+    setInterval(detect, 100)
 }
 
 function keyPressed() {
